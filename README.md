@@ -16,7 +16,7 @@ Before you begin, ensure you have met the following requirements:
 
    ```bash
    git clone https://github.com/RRS-Lab-NCL/DPD_effect_of_gravity_on_WBC.git
-   cd repository
+   cd DPD_effect_of_gravity_on_WBC
    
 2. **Set Up the Environment**
 
