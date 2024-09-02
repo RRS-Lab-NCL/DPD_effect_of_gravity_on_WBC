@@ -27,7 +27,7 @@ Before you begin, ensure you have met the following requirements:
 3. **Install Dependencies**
 
    ```bash
-   cd /src
+   cd src
    pip install -r requirements.txt
 
 4. **Compiling the Cython File**
