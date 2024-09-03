@@ -22,7 +22,7 @@ Before you begin, ensure you have met the following requirements:
 
    ```bash
    conda create -n py311 python=3.11
-   source venv/bin/activate
+   conda activate py311
 
 3. **Install Dependencies**
 
