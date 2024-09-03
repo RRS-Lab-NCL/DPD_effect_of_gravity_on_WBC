@@ -6,9 +6,7 @@ This project is designed to investigate the effects of gravity on WBC using Diss
 Before you begin, ensure you have met the following requirements:
 
 - Python 3.9 installed
-- Cython installed (`pip install cython`)
-- Pymp (Brings OpenMP-like functionality to Python; `pip install pymp-pypi`)
-- A C compiler (like GCC on Linux/Mac or MSVC on Windows)
+- C - compiler (like GCC on Linux/Mac or MSVC on Windows)
 
 ## Installation
 
