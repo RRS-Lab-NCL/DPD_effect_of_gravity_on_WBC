@@ -33,7 +33,7 @@ Before you begin, ensure you have met the following requirements:
 4. **Compiling the Cython File**
 
    ```bash
-   export CFLAGS="-I /home/test/anaconda3/lib/python3.xx/site-packages/numpy/core/include $CFLAGS"
+   export CFLAGS="-I /home/test/anaconda3/lib/python3.9/site-packages/numpy/core/include $CFLAGS"
    python setup.py build_ext --inplace
 
 5. **Check the Build**
