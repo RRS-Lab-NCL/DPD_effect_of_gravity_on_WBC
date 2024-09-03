@@ -62,7 +62,7 @@ class Sim_params:
         self.body_force         = body_force
         self.force_ext[:, 0]    = self.particle_density*self.body_force
         self.force_ext[:, 1]    = -self.multiple*self.gravity
-        self.Body_force         = (str(self.force_ext[:, 0]))
+        self.Body_force         = (str(self.particle_density*self.body_force))
         self.F_ext              = (str(self.multiple))
         ##
         self.RBC_condition      = 1                                             # 1 = upright, 2 = parallel
