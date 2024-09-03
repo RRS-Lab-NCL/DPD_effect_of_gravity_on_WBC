@@ -39,7 +39,9 @@ Before you begin, ensure you have met the following requirements:
 5. **Check the Build**
    After the build process, ensure that the compiled file (e.g., your_module_name.cpython-<version>-<platform>.so) is present in the project directory.
 
-6. **Run the simulation**
+6. **Change the path in Save_location.py file**
+   
+7. **Run the simulation**
 
    ```bash
    python3 main.py body_force = <float_value> gravity = <float_value>
