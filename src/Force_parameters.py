@@ -12,10 +12,10 @@ import numpy as npy
 import math
 
 class Force_calc_params:
-
-"""
-Generates force parameter class object for DPD simulation. creates and stores two seperate values for fluid-fluid (ff), fluid-solid (fs) and solid-solid (ss)
-"""
+    
+    """
+    Generates force parameter class object for DPD simulation. creates and stores two seperate values for fluid-fluid (ff), fluid-solid (fs) and solid-solid (ss)
+    """
     
     def __init__(self, Parameters, class_object):
         
