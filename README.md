@@ -21,7 +21,7 @@ Before you begin, ensure you have met the following requirements:
 2. **Set Up the Environment**
 
    ```bash
-   python -m venv venv
+   conda create -n py311 python=3.11
    source venv/bin/activate
 
 3. **Install Dependencies**
