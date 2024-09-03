@@ -21,7 +21,7 @@ Before you begin, ensure you have met the following requirements:
 2. **Set Up the Environment**
 
    ```bash
-   conda create -n py311 python=3.11
+   conda create -n py39 python=3.9
    conda activate py311
 
 3. **Install Dependencies**
