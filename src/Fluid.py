@@ -33,12 +33,13 @@ class Fluid(object):
         self.kBT 	= npy.zeros((int(Parameters.nt), ))
         self.KE  	= npy.zeros((int(Parameters.nt), ))
         
-def Fluid_init(Parameters):       
-        
+def Fluid_init(Parameters):  
+    
     def FCC_init(Parameters):
-    	"""
+        """
     	Generating particle positions in FCC (Face Centered Cube) structure 
     	"""
+        
         pos_max         	= int((2*math.sqrt(Parameters.np/2)))
         part_pos_max 		= npy.zeros((pos_max+2, Parameters.ncoord))
         part_pos 	    	= npy.zeros((Parameters.np + 2*int(0.5*pos_max)+1, Parameters.ncoord), dtype = npy.float64)
@@ -68,10 +69,10 @@ def Fluid_init(Parameters):
         return part_pos, v, acc
     
     def fluid_classifaction(part_pos, v, acc):
-    	"""
+        """
     	Initiate the formation of Fluid class object for fluid particles with their own seperate identifier (key)
     	
-    	"""
+    	"""    	
         
         key 		     = npy.arange(0, len(part_pos), 1).reshape(len(part_pos), 1).astype(int)
         
