@@ -24,22 +24,25 @@ Before you begin, ensure you have met the following requirements:
    conda create -n py39 python=3.9
    conda activate py39
 
-3. **Install Dependencies**
+3. **Set Up the Environment**
+
+   ```bash
+   conda activate py39
+   
+4. **Install Dependencies**
 
    ```bash
    cd src
    pip install -r requirements.txt
 
-4. **Compiling the Cython File**
+5. **Compiling the Cython File**
 
    ```bash
    export CFLAGS="-I /home/test/anaconda3/lib/python3.9/site-packages/numpy/core/include $CFLAGS"
    python setup.py build_ext --inplace
 
-5. **Check the Build**
+6. **Check the Build**
    After the build process, ensure that the compiled file (e.g., your_module_name.cpython-<version>-<platform>.so) is present in the project directory.
-
-6. **Change the path in Save_location.py file**
    
 7. **Run the simulation**
 
