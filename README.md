@@ -39,7 +39,7 @@ Before you begin, ensure you have met the following requirements:
    python setup.py build_ext --inplace
 
 6. **Check the Build**
-   After the build process, ensure that the compiled file (e.g., your_module_name.cpython-<version>-<platform>.so) is present in the project directory.
+   : After the build process, ensure that the compiled file (e.g., your_module_name.cpython-<version>-<platform>.so) is present in the project directory.
    
 7. **Run the simulation**
 
