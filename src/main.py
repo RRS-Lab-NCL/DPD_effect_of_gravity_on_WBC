@@ -55,73 +55,72 @@ def save_checkpoint(path, Fluid, Solid_WBC, ts):
 def main(body_force, multiple):
 
     parameters                      = Simulation_Parameters(body_force, multiple)				# Initiates parameter set
-    path                            = Data_path(parameters)                                     # Path for saving data        
-    checkpoint                      = load_checkpoint(path)                                     # Attempt to load previous checkpoint
+    path                            = Data_path(parameters)                                     # Path for saving data
     
-    if checkpoint:
-        Fluid                       = checkpoint['Fluid']
-        Solid_WBC                   = checkpoint['Solid_WBC']
-        start_ts                    = checkpoint['ts'] + 1                                      # Resume from next step
-    else:
-        Fluid                       = Fluid_init(parameters)
-        Solid_WBC                   = WBC_init(parameters)
-        start_ts                    = 0
-    
-    Fluid                           = Fluid_init(parameters)							        # Initiates Fluid particles from Fluid module       
-    Solid_WBC                       = WBC_init(parameters)						            	# Initiates WBC from Solid module
-    
-    xi_WBC                          = Xi(len(Solid_WBC[0].pos)) 				        		# Preallocates (n x n) random number set for solid particles
-    
-    fcalc_params_fluid              = Force_calc_params(parameters, Fluid) 		    			# Initiates DPD parameters (aij, gammaij, sigmaij) for fluid
-    fcalc_params_WBC                = Force_calc_params(parameters, Solid_WBC)	     			# Initiates DPD parameters (aij, gammaij, sigmaij) for solid
-    
-    path                            = Data_path(parameters)					            		# Initiates path to save the trajectories
-    saved_path                      = Data_parameters(path, parameters, Fluid)  				# Saves simulation's metadata
-    
-    try:
-
-        for ts in (range(start_ts, int(parameters.nt))):								        # Simulation start; Time marching
-            
-            ############################## FIRST VERLET STEP ############################################################
+    while True:
         
-            Fluid                       = Equation_2D_fluid.VV_update1(Fluid, parameters)
-            Solid_WBC                   = Equation_2D_WBC.VV_update1(Solid_WBC, parameters)
+        checkpoint                      = load_checkpoint(path)
+        
+        if checkpoint:
+            Fluid                       = checkpoint['Fluid']
+            Solid_WBC                   = checkpoint['Solid_WBC']
+            start_ts                    = checkpoint['ts'] + 1                                      # Resume from next step
+        else:
+            Fluid                       = Fluid_init(parameters)
+            Solid_WBC                   = WBC_init(parameters)
+            start_ts                    = 0
             
-            ############################## COMPUTING DPD FORCES #########################################################
-                                                                        
-            Fluid                       = Equation_2D_fluid.Compute_forces(Fluid, Solid_WBC, {},
-                                                                            parameters,fcalc_params_fluid)
-            Solid_WBC                   = Equation_2D_WBC.Compute_forces(Solid_WBC, Fluid, parameters, 
-                                                                          fcalc_params_WBC, xi_WBC)
-            
-            ############################## COMPUTING WBC INTERNAL FORCES ################################################
-            
-            Solid_WBC                   = Equation_2D_WBC.Internal_Forces(Solid_WBC, parameters)
-            
-            ############################## SECOND VERLET STEP ###########################################################
-            
-            Fluid                       = Equation_2D_fluid.VV_update2(Fluid, parameters, ts)        
-            Solid_WBC                   = Equation_2D_WBC.VV_update2(Solid_WBC, parameters)
-            
-            ############################## SAVING SIMULATION DATA #######################################################
-                    
-            if (np.mod(ts, 250) == 0):
+        xi_WBC                          = Xi(len(Solid_WBC[0].pos)) 				        		# Preallocates (n x n) random number set for solid particles
+        
+        fcalc_params_fluid              = Force_calc_params(parameters, Fluid) 		    			# Initiates DPD parameters (aij, gammaij, sigmaij) for fluid
+        fcalc_params_WBC                = Force_calc_params(parameters, Solid_WBC)	     			# Initiates DPD parameters (aij, gammaij, sigmaij) for solid
+        
+        saved_path                      = Data_parameters(path, parameters, Fluid)  				# Saves simulation's metadata
+        
+        try:
+    
+            for ts in (range(start_ts, int(parameters.nt))):								        # Simulation start; Time marching
                 
-                saved_path              = Data_pickling(path, Fluid, ts)
-                    
-                for nwbc in range(len(Solid_WBC)):
-                    obj                 = Solid_WBC[nwbc]
-                    saved_path          = Data_WBC(path, obj, nwbc, ts)                
-                    
-                print(ts, Fluid.KE[ts], Fluid.kBT[ts])               
-                save_checkpoint(path, Fluid, Solid_WBC, ts)                                     # Save checkpoint periodically
-
-    except Exception as e:
-        
-        print(f"An error occurred at time step {ts}: {e}")
-        print("Exiting the current cycle and restarting from the previous checkpoint...")
-        sys.exit(1)                                                                             # Exit the program to allow a safe restart
+                ############################## FIRST VERLET STEP ############################################################
             
+                Fluid                       = Equation_2D_fluid.VV_update1(Fluid, parameters)
+                Solid_WBC                   = Equation_2D_WBC.VV_update1(Solid_WBC, parameters)
+                
+                ############################## COMPUTING DPD FORCES #########################################################
+                                                                            
+                Fluid                       = Equation_2D_fluid.Compute_forces(Fluid, Solid_WBC, {},
+                                                                                parameters,fcalc_params_fluid)
+                Solid_WBC                   = Equation_2D_WBC.Compute_forces(Solid_WBC, Fluid, parameters, 
+                                                                              fcalc_params_WBC, xi_WBC)
+                
+                ############################## COMPUTING WBC INTERNAL FORCES ################################################
+                
+                Solid_WBC                   = Equation_2D_WBC.Internal_Forces(Solid_WBC, parameters)
+                
+                ############################## SECOND VERLET STEP ###########################################################
+                
+                Fluid                       = Equation_2D_fluid.VV_update2(Fluid, parameters, ts)        
+                Solid_WBC                   = Equation_2D_WBC.VV_update2(Solid_WBC, parameters)
+                
+                ############################## SAVING SIMULATION DATA #######################################################
+                        
+                if (np.mod(ts, 250) == 0):
+                    
+                    saved_path              = Data_pickling(path, Fluid, ts)
+                        
+                    for nwbc in range(len(Solid_WBC)):
+                        obj                 = Solid_WBC[nwbc]
+                        saved_path          = Data_WBC(path, obj, nwbc, ts)                
+                        
+                    print(ts, Fluid.KE[ts], Fluid.kBT[ts])               
+                    save_checkpoint(path, Fluid, Solid_WBC, ts)                                     # Save checkpoint periodically
+    
+        except Exception as e:
+            
+            print(f"An error occurred at time step {ts}: {e}")
+            print("Exiting the current cycle and restarting from the previous checkpoint...")
+            continue                                                                             # Exit the program to allow a safe restart
+                
 if __name__ == "__main__":
     
     if len(sys.argv) < 3:
