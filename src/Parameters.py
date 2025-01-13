@@ -96,7 +96,7 @@ def Simulation_Parameters(body_force, multiple):
         Thermal_velocity        = 0.0010                                        # m*s^-1
     
         # Material Property
-        Shear_mod_physical      = 6.3e-6                                        # N/m // (kg*s^-2)
+        Shear_mod_physical      = 166.667e-6                                    # N/m // (kg*s^-2)
         poission_ratio          = 0.4999
         Young_mod_physical      = Shear_mod_physical*(2*(1 + poission_ratio))   # N/m // (kg*s^-2)
         Shear_mod_model         = 392.453
